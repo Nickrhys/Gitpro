@@ -1,14 +1,39 @@
 <!doctype html>
 <html lang='en'>
-<head>
-</head>
-<body>
-	<form id='add-profile'>
-		<input id='username' placeholder='Enter a Github username'>
-		<button type='submit'>Load profile</button>
-	</form>
+	<head>
+	<meta charset='utf8'>
+	</head>
+	<body>
+		<form id='add-profile'>
+			<input id='username' placeholder='Enter a Github username'>
+			<button type='submit'>Load profile</button>
+		</form>
 
-	
+		<main class="profile-container">
+<!-- 		<article class="profile">
+			<section class="profile">
+				<section class="pic">
+					<img src="https://avatars.githubusercontent.com/u/8350130?v=2"> -->
+				</section>
 
+				<section class="statistics">
+				</section>
+		</main>
 
-</body>
+		<script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
+		<script>
+			$(document).ready(function(){
+				$('#add-profile').on('submit', function(e){
+					e.preventDefault();
+					var url = 'https://api.github.com/users/' + $('#username').val() + '?access_token=0432cb16ed635fd429ffdc7c32c538dd6190ce16';
+
+					var userData = $.get(url, function(user) {
+						$('<article class="profile"><section class="pic"><img src="' +user.avatar_url + '"></section><section class="statistics"><h3><a href="https://github.com/' + user.login + '">' + user.login + '</a></h3><strong>email: ' + user.email + '</strong><br><strong>Repos: ' + user.public_repos + '</strong></section><br clear="all"></article>').appendTo('.profile-container');
+					}).always(function() {
+						$('#username').val('');
+					})
+				})
+			})
+		</script>
+	</body>
+</html>
